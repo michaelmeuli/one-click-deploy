@@ -70,6 +70,13 @@ export const config: VendureConfig = {
         AssetServerPlugin.init({
             route: 'assets',
             assetUploadDir: path.join(__dirname, '../static/assets'),
+            storageStrategyFactory: configureS3AssetStorage({
+                bucket: <string>process.env.AWS_BUCKET,
+                credentials: {
+                  accessKeyId: <string>process.env.AWS_ACCESS_KEY_ID,
+                  secretAccessKey: <string>process.env.AWS_SECRET_ACCESS_KEY,
+                },
+              }),
         }),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
